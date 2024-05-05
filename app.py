@@ -126,7 +126,7 @@ def check_numericals(observation):
         error = f"age {o_x} not valid"
         return False, error 
     o_y = observation.get("Galactic Y")
-    if not isinstance(o_y, int): 
+    if not isinstance(o_y, float): 
         error = f"capital-gain {o_y} not valid"
         return False, error
     return True, ""
