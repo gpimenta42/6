@@ -80,10 +80,10 @@ def check_valid_column(observation):
 
 
 def check_categorical_values(observation):
-    valid_category = {'Type': {"values":['Entity inspection', 'Entity and Spaceship search', 'Spaceship search']},
+    valid_category = {'Type': {"values":['Entity inspection', 'Entity and Spaceship search', 'Spaceship search'], "default":None},
                       'Part of a standard enforcement protocol': {"values":[False, True], "default":None}, 
                       'Reproduction': {"values":['Asexual', 'Sexual']},
-                      'Age range': {"values":['Senior', 'Adult', 'Young Adult', 'Young', 'Child']},
+                      'Age range': {"values":['Senior', 'Adult', 'Young Adult', 'Young', 'Child'], "default":None},
                       'Self-defined species category': {"values": ['Zoltrax - Diverse Clans', 'Terran - Northern Cluster','Xenar - Unspecified',
                                                         'Terran - Outer Colonies','Terran - Gaelic Cluster','Xenar - Diverse',
                                                         'Silicar - Various Sects', 'Zoltrax - Islander','Zoltrax - Continental',
@@ -115,15 +115,7 @@ def check_categorical_values(observation):
                                               'Graviton Manor Z54-VL','Willow Wavefront S16-TO','Northern Apex O42-IR','Narwhal Base T65-ZV',
                                               'Cliffside Colony B21-JI','Dorset Delta I55-FO','Camelot Axis Z14-XP','Nexus Orbit U55-WQ', 'Gwydion’s Gate L11-ME'], "default":None}}
 
-    for key, valid in valid_category.items():
-        if key in observation:
-            value = observation[key]
-            if value not in valid_category[key]:
-                error = f"{value} not valid for {key}"
-                return False, error 
-        else:
-            error = "error"
-            return False, error 
+
     return True, ""
 
 
