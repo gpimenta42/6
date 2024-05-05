@@ -22,7 +22,6 @@ class Prediction(Model):
     observation_id = TextField(unique=True)
     observation = TextField()
     proba = FloatField()
-    pred = IntegerField(null=True)
     true_class = IntegerField(null=True)
 
     class Meta:
@@ -201,8 +200,7 @@ def predict():
     p = Prediction(
         observation_id=_id,
         observation = obs_dict,
-        proba = proba_,
-        pred=prediction,
+        proba = proba_
     )
     logging.info("Created variable 'p'")
     try:
