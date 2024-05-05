@@ -63,7 +63,7 @@ def check_request(request):
 """
 
 def check_valid_column(observation):
-    valid_columns = {"observation_id", "Type", "race", "Date", "Part of a standard enforcement protocol", 
+    valid_columns = {"observation_id", "Type", "Date", "Part of a standard enforcement protocol", 
                      "Galactic X", "Galactic Y",
                      "Reproduction", "Age range", "Self-defined species category",
                      "Officer-defined species category", "Governing law", "Object of inspection",
