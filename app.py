@@ -3,13 +3,15 @@ import json
 import pickle
 import joblib
 import pandas as pd
+import logging
+from playhouse.shortcuts import model_to_dict
+from playhouse.db_url import connect
 from flask import Flask, jsonify, request
 from peewee import (
     SqliteDatabase, PostgresqlDatabase, Model, IntegerField,
     FloatField, TextField, IntegrityError
 )
 from playhouse.shortcuts import model_to_dict
-import logging
 
 ########################################
 # Begin database stuff
