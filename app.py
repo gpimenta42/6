@@ -24,7 +24,7 @@ class Prediction(Model):
     observation_id = TextField(unique=True)
     observation = TextField()
     proba = FloatField()
-    true_class = BooleanField(null=True)
+    true_class = IntegerField(null=True)
 
     class Meta:
         database = DB
