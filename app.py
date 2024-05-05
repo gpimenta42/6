@@ -24,7 +24,7 @@ class Prediction(Model):
     observation_id = TextField(unique=True)
     observation = TextField()
     proba = FloatField()
-    true_class = BooleanField()
+    true_class = BooleanField(null=True)
 
     class Meta:
         database = DB
@@ -189,7 +189,7 @@ def predict():
     obs = pd.DataFrame([observation], columns=columns).astype(dtypes)
     proba_ = pipeline.predict_proba(obs)[0, 1]
     prediction = pipeline.predict(obs)[0]
-    response["label"] = prediction
+    response["label"] = bool(prediction)
     logging.info(f"{prediction}")
     p = Prediction(
         observation_id=_id,
