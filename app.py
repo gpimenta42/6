@@ -189,7 +189,10 @@ def predict():
     obs = pd.DataFrame([observation], columns=columns).astype(dtypes)
     proba_ = pipeline.predict_proba(obs)[0, 1]
     prediction = pipeline.predict(obs)[0]
-    prediction = np.where(prediction == True, "true", "false")
+    if prediction == True:
+        prediction = "true"
+    else:
+        prediction = "false"
     response["label"] = prediction
     
     p = Prediction(
