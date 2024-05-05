@@ -201,13 +201,13 @@ def predict():
         observation_id=_id,
         prediction=prediction,
     )
-    logger.info("Created variable 'p'")
+    logging.info("Created variable 'p'")
     try:
-        logger.info("Trying to save p...")
+        logging.info("Trying to save p...")
         p.save()
-        logger.info("p saved successfully!")
+        logging.info("p saved successfully!")
     except IntegrityError:
-        logger.info("Couldn't save p :(")
+        logging.info("Couldn't save p :(")
         error_msg = "ERROR: Observation ID: '{}' already exists".format(_id)
         response["error"] = error_msg
         print(error_msg)
@@ -220,9 +220,11 @@ def predict():
 def update():
     obs = request.get_json()
     try:
+        logging.info("update: Trying to save p")
         p = Prediction.get(Prediction.observation_id == obs['observation_id'])
         p.true_class = obs['label']
         p.save()
+        logging.info("update: p saved successfully!")
         return jsonify(model_to_dict(p))
     except Prediction.DoesNotExist:
         error_msg = 'Observation ID: "{}" does not exist'.format(obs['observation_id'])
