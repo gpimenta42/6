@@ -9,7 +9,7 @@ from playhouse.db_url import connect
 from flask import Flask, jsonify, request
 from peewee import (
     SqliteDatabase, PostgresqlDatabase, Model, IntegerField,
-    FloatField, TextField, IntegrityError
+    FloatField, TextField, IntegrityError, BooleanField
 )
 from playhouse.shortcuts import model_to_dict
 import numpy as np
@@ -24,7 +24,7 @@ class Prediction(Model):
     observation_id = TextField(unique=True)
     observation = TextField()
     proba = FloatField()
-    true_class = TextField()
+    true_class = BooleanField()
 
     class Meta:
         database = DB
@@ -153,7 +153,7 @@ app = Flask(__name__)
 @app.route('/predict', methods=['POST'])
 def predict():
     obs_dict = request.get_json()
-  
+    logging.info(obs_dict)
     if 'observation_id' in obs_dict:
         _id = str(obs_dict['observation_id'])
         response = {}
@@ -189,12 +189,8 @@ def predict():
     obs = pd.DataFrame([observation], columns=columns).astype(dtypes)
     proba_ = pipeline.predict_proba(obs)[0, 1]
     prediction = pipeline.predict(obs)[0]
-    if prediction == True:
-        prediction = "true"
-    else:
-        prediction = "false"
     response["label"] = prediction
-    
+    logging.info(f"{prediction}")
     p = Prediction(
         observation_id=_id,
         observation = obs_dict,
