@@ -9,16 +9,15 @@ from peewee import (
     FloatField, TextField, IntegrityError
 )
 from playhouse.shortcuts import model_to_dict
-
+import logging
 
 ########################################
 # Begin database stuff
 
-DB = SqliteDatabase('predictions.db')
-
+DB = connect(os.environ.get('DATABASE_URL') or 'sqlite:///predictions.db')
 
 class Prediction(Model):
-    observation_id = IntegerField(unique=True)
+    observation_id = TextField(unique=True)
     observation = TextField()
     proba = FloatField()
     true_class = IntegerField(null=True)
@@ -200,9 +199,13 @@ def predict():
         observation_id=_id,
         prediction=prediction,
     )
+    logger.info("Created variable 'p'")
     try:
+        logger.info("Trying to save p...")
         p.save()
+        logger.info("p saved successfully!")
     except IntegrityError:
+        logger.info("Couldn't save p :(")
         error_msg = "ERROR: Observation ID: '{}' already exists".format(_id)
         response["error"] = error_msg
         print(error_msg)
