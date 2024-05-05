@@ -22,6 +22,7 @@ class Prediction(Model):
     observation_id = TextField(unique=True)
     observation = TextField()
     proba = FloatField()
+    pred = IntegerField(null=True)
     true_class = IntegerField(null=True)
 
     class Meta:
@@ -193,13 +194,15 @@ def predict():
         return jsonify(response)
 
     obs = pd.DataFrame([observation], columns=columns).astype(dtypes)
-    proba = pipeline.predict_proba(obs)[0, 1]
+    proba_ = pipeline.predict_proba(obs)[0, 1]
     prediction = pipeline.predict(obs)[0]
     response["label"] = prediction
     
     p = Prediction(
         observation_id=_id,
-        prediction=prediction,
+        observation = obs_dict,
+        proba = proba_,
+        pred=prediction,
     )
     logging.info("Created variable 'p'")
     try:
